@@ -21,20 +21,7 @@ wallet on-chain.
 
 ## How it works
 
-```
- User                 Bot                      Postgres            TON network
-  │   /start            │                          │                    │
-  │────────────────────▶│  create invoice INV-7F3A │                    │
-  │   "create" / amount │─────────────────────────▶│  status=pending    │
-  │◀────────────────────│  Tonkeeper link + comment│                    │
-  │                     │                          │                    │
-  │   pays in wallet ───┼──────────────────────────┼───────────────────▶│
-  │                     │   watcher poll (job queue)│                   │
-  │                     │◀─────────────────────────────────────────────│ getTransactions
-  │                     │  match comment + amount   │                    │
-  │                     │─────────────────────────▶│  status=paid       │
-  │◀────────────────────│  ✅ "Payment received"    │                    │
-```
+![Scheme](docs/payment-flow.png)
 
 A payment is matched when an **incoming** transaction carries a comment equal to
 the invoice reference and a value at least equal to the invoice amount. Because
